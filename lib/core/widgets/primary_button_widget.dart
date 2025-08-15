@@ -16,6 +16,7 @@ class PrimaryButtonWidget extends StatelessWidget {
     this.backgroundColor,
     this.icon,
     this.trailingIcon,
+    this.isLoding = false,
   });
   final String? buttonText;
   final Color? backgroundColor;
@@ -24,6 +25,7 @@ class PrimaryButtonWidget extends StatelessWidget {
   final double? height;
   final double? bordersRadius;
   final double? fontSize;
+  final bool isLoding;
   final Widget? icon;
   final Widget? trailingIcon;
   final void Function()? onPress;
@@ -44,13 +46,19 @@ class PrimaryButtonWidget extends StatelessWidget {
         children: [
           icon != null ? icon! : const SizedBox.shrink(),
           icon != null ? SizedBox(width: 8.w) : const SizedBox.shrink(),
-          Text(
-            buttonText ?? "",
-            style: TextStyle(
-              color: textColor ?? AppColors.whiteColor,
-              fontSize: fontSize ?? 16.sp,
-            ),
-          ),
+          isLoding
+              ? SizedBox(
+                  width: 30.w,
+                  height: 30.h,
+                  child: CircularProgressIndicator(color: Colors.white),
+                )
+              : Text(
+                  buttonText ?? "",
+                  style: TextStyle(
+                    color: textColor ?? AppColors.whiteColor,
+                    fontSize: fontSize ?? 16.sp,
+                  ),
+                ),
           trailingIcon != null ? SizedBox(width: 8.w) : const SizedBox.shrink(),
           trailingIcon != null ? trailingIcon! : const SizedBox.shrink(),
         ],

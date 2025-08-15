@@ -2,9 +2,12 @@ import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
 import 'package:app_e_commers/core/widgets/custom_text_filde.dart';
 import 'package:app_e_commers/core/widgets/gap.dart';
+import 'package:app_e_commers/features/homeScreem/cubit/categories/cubit/categories_cubit.dart';
+import 'package:app_e_commers/features/homeScreem/cubit/product/product_cubit.dart';
 import 'package:app_e_commers/features/homeScreem/widgets/category_item_widget.dart';
 import 'package:app_e_commers/features/homeScreem/widgets/prodact_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -50,39 +53,63 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           Gap(height: 16.h),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CategoryItemWidget(text: "All"),
-                CategoryItemWidget(text: "All"),
-                CategoryItemWidget(text: "All"),
-                CategoryItemWidget(text: "All"),
-                CategoryItemWidget(text: "All"),
-                CategoryItemWidget(text: "All"),
-                CategoryItemWidget(text: "All"),
-              ],
+            child: BlocBuilder<CategoriesCubit, CategoriesState>(
+              builder: (context, state) {
+                if (state is CategorieLoading) {
+                  return Container();
+                } else if (state is CategorieLoaded) {
+                  return Row(
+                    children: List.generate(state.categorie.length, (index) {
+                      final categorie = state.categorie[index];
+                      return CategoryItemWidget(text: categorie.name);
+                    }),
+                  );
+                } else if (state is CategorieError) {
+                  return Text(state.message);
+                }
+                return const Center(child: Text('No products found'));
+              },
             ),
           ),
           Gap(height: 24.h),
-          Expanded(
-            child: GridView(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8.sp,
-                crossAxisSpacing: 16.sp,
-                childAspectRatio: 0.7,
-              ),
-              children: [
-                ProdactItem(
-                  itemName: "Same Test",
-                  itemPrise: "\$ 11120",
-                  onTap: () =>
-                      GoRouter.of(context).pushNamed(AppRoutes.detailsScreen),
-                ),
-              ],
-            ),
+          BlocBuilder<ProductCubit, ProductState>(
+            builder: (context, state) {
+              if (state is ProdectLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is ProdectLoaded) {
+                return Expanded(
+                  child: GridView.builder(
+                    itemCount: state.products.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8.sp,
+                      crossAxisSpacing: 16.sp,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemBuilder: (context, index) {
+                      final product = state.products[index];
+                      return GestureDetector(
+                        onTap: () {
+                          GoRouter.of(
+                            context,
+                          ).pushNamed(AppRoutes.detailsScreen, extra: product);
+                        },
+                        child: ProdactItem(
+                          itemName: product.title,
+                          itemPrise: product.price.toString(),
+                          image: product.image,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              } else if (state is ProductError) {
+                return Text(state.message);
+              }
+              return const Center(child: Text('No products found'));
+            },
           ),
         ],
       ),

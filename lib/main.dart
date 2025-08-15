@@ -1,12 +1,18 @@
 import 'package:app_e_commers/core/utils/service_locator.dart';
+import 'package:app_e_commers/features/auth/cubit/auth_cubit.dart';
+import 'package:app_e_commers/features/homeScreem/cubit/categories/cubit/categories_cubit.dart';
+import 'package:app_e_commers/features/homeScreem/cubit/product/product_cubit.dart';
+import 'package:app_e_commers/features/homeScreem/repo/productRepo.dart';
 import 'package:app_e_commers/routing/router_generator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/networking/dio_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
+  // await ProductRepo().getPoructs();
   runApp(const MyApp());
 }
 
@@ -21,7 +27,16 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp.router(routerConfig: RouterGenerator.goRouter);
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => sl<ProductCubit>()..getAllProducts()),
+            BlocProvider(
+              create: (_) => sl<CategoriesCubit>()..getAllCategorie(),
+            ),
+            BlocProvider(create: (_) => sl<AuthCubit>()),
+          ],
+          child: MaterialApp.router(routerConfig: RouterGenerator.goRouter),
+        );
       },
     );
   }

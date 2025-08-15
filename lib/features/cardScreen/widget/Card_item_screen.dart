@@ -50,7 +50,8 @@ class CardItemScreen extends StatelessWidget {
                     itemSize,
                     style: AppStyles.subtitleStyle.copyWith(fontSize: 12.sp),
                   ),
-                  Gap(height: 15.h),
+                  // Gap(height: 15.h),
+                  Spacer(),
                   Text(
                     itemprice,
                     style: AppStyles.primaryHeadLineStyle.copyWith(

@@ -1,9 +1,6 @@
-import 'dart:developer';
-
+import 'package:app_e_commers/core/networking/api_endpoints.dart';
 import 'package:dio/dio.dart';
-
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'api_endpoints.dart';
 
 class DioHelper {
   Dio? dio;
@@ -19,16 +16,13 @@ class DioHelper {
     dio!.interceptors.add(PrettyDioLogger());
   }
 
-  getRequest({
-    required String endPoint,
-    required Map<String, dynamic> query,
-  }) async {
+  getRequest({required String endPoint, Map<String, dynamic>? query}) async {
     try {
       Response response = await dio!.get(endPoint, queryParameters: query);
 
       return response;
     } catch (e) {
-      log(e.toString());
+      rethrow;
     }
   }
 
@@ -37,11 +31,23 @@ class DioHelper {
     required Map<String, dynamic> data,
   }) async {
     try {
-      Response response = await dio!.post(endPoint, data: data);
+      final Response response = await dio!.post(endPoint, data: data);
 
       return response;
     } catch (e) {
-      // log(e.toString());
+      rethrow;
+    }
+  }
+
+  putRequest({
+    required String endPoint,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final Response response = await dio!.put(endPoint, data: data);
+
+      return response;
+    } catch (e) {
       rethrow;
     }
   }
