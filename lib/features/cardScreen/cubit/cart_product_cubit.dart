@@ -1,44 +1,46 @@
+import 'dart:developer';
+
 import 'package:app_e_commers/core/utils/service_locator.dart';
-import 'package:app_e_commers/features/cardScreen/model/cartModel.dart';
+import 'package:app_e_commers/features/cardScreen/cubit/cart_product_state.dart';
 import 'package:app_e_commers/features/cardScreen/repo/cart_repo.dart';
 import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'cart_product_state.dart';
+class CartProductCubit extends Cubit<CartState> {
+  CartProductCubit() : super(InitialCartState());
 
-class CartProductCubit extends Cubit<CartProductState> {
-  CartProductCubit() : super(CartProductInitial());
-
-  void getCart() async {
-    emit(LodingGettingCart());
+  getCart() async {
+    emit(LoadingCarts());
     final res = await sl<CartRepo>().getAllCart();
     res.fold(
-      (erroe) {
-        emit(ErrorGettingCart(erroe));
+      (error) {
+        log(error.toString());
+        emit(ErrorGettingCarts(error));
       },
       (cart) {
-        emit(SuccessGettingCart(cart));
+        emit(SuccessGettingCarts(cart));
       },
     );
   }
 
-  void addingCart({
-    required ProductModel product,
-    required int quantity,
-  }) async {
-    emit(LodingGettingCart());
+  addingCart({required ProductModel product, required int quantity}) async {
+    emit(AddingToCart());
+    // if(state is clos)
     DateTime dateTime = DateTime.now();
     final res = await sl<CartRepo>().addToCart(
       date: dateTime.toString(),
       product: product,
       quantity: quantity,
     );
+
     res.fold(
       (erroe) {
-        emit(ErrorGettingCart(erroe));
+        emit(ErrorAddingToCart(erroe));
       },
       (cart) {
-        emit(SuccessGettingCart(cart));
+        if (!isClosed) {
+          emit(SuccessGettingCarts(cart));
+        }
       },
     );
   }

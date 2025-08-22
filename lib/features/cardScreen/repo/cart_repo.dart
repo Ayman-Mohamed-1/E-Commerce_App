@@ -11,10 +11,10 @@ class CartRepo {
   Future<Either<String, Cartmodel>> getAllCart() async {
     try {
       final respons = await sl<DioHelper>().getRequest(
-        endPoint: ApiEndpoints.carts + "/user/2",
+        endPoint: "${ApiEndpoints.carts}/user/2",
       );
       if (respons.statusCode == 200) {
-        Cartmodel cartModel = Cartmodel.fromJson(respons.data);
+        Cartmodel cartModel = Cartmodel.fromJson(respons.data[0]);
         return Right(cartModel);
       } else {
         return Left("Error in Getting Cart");
@@ -31,11 +31,12 @@ class CartRepo {
   }) async {
     try {
       final respons = await sl<DioHelper>().putRequest(
-        endPoint: "${ApiEndpoints.carts}/user/2",
+        endPoint: "${ApiEndpoints.carts}/user/3",
         data: {
+          "userId": 2,
           "date": date,
           "products": [
-            {"productId": product, "quantity": quantity},
+            {"productId": product.id, "quantity": quantity},
           ],
         },
       );

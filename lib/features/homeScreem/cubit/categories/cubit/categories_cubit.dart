@@ -16,8 +16,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   getAllCategorie() async {
     emit(CategorieLoading());
     try {
-      final List<Category> categorie = await repo.getCategories()
-        ;
+      final List<Category> categorie = await repo.getCategories();
       log(categorie.toString());
       emit(CategorieLoaded(categorie));
     } catch (e) {

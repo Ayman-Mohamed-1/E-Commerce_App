@@ -1,16 +1,18 @@
+// ignore_for_file: file_names
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
 import 'package:app_e_commers/core/utils/animatedSnackBar.dart';
-import 'package:app_e_commers/core/widgets/gap.dart';
+import 'package:app_e_commers/core/widgets/back.dart';
 import 'package:app_e_commers/core/widgets/primary_button_widget.dart';
 import 'package:app_e_commers/features/cardScreen/cubit/cart_product_cubit.dart';
-import 'package:app_e_commers/features/details/widget/back_btn_widget.dart';
-import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
+import 'package:app_e_commers/features/cardScreen/cubit/cart_product_state.dart';
 import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:readmore/readmore.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -26,11 +28,11 @@ class DetailsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Gap(height: 59.h),
+                Gap(59.h),
                 Row(
                   children: [
-                    BackBtn(),
-                    Gap(width: 108.w),
+                    BackBtnAc(),
+                    Gap(108.w),
                     Text(
                       "Details",
                       style: AppStyles.primaryHeadLineStyle.copyWith(
@@ -39,7 +41,7 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Gap(height: 20.h),
+                Gap(20.h),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
                   child: SizedBox(
@@ -53,14 +55,14 @@ class DetailsScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Gap(height: 12.h),
+                        Gap(12.h),
                         Text(
                           product.title,
                           style: AppStyles.primaryHeadLineStyle.copyWith(
                             fontSize: 24.sp,
                           ),
                         ),
-                        Gap(height: 13.h),
+                        Gap(13.h),
                         Row(
                           children: [
                             const Icon(
@@ -84,7 +86,7 @@ class DetailsScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Gap(height: 13.h),
+                        Gap(13.h),
                         ReadMoreText(
                           product.description.toString(),
                           style: AppStyles.subtitleStyle,
@@ -102,7 +104,7 @@ class DetailsScreen extends StatelessWidget {
                             color: AppColors.primaryColor,
                           ),
                         ),
-                        Gap(height: 120.h),
+                        Gap(120.h),
                       ],
                     ),
                   ),
@@ -137,9 +139,9 @@ class DetailsScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        BlocConsumer<CartProductCubit, CartProductState>(
+                        BlocConsumer<CartProductCubit, CartState>(
                           listener: (context, state) {
-                            if (state is LodingGettingCart) {
+                            if (state is SuccessAddingToCarts) {
                               showAnimatedSnackDialog(
                                 context,
                                 message:
@@ -149,7 +151,7 @@ class DetailsScreen extends StatelessWidget {
                             }
                           },
                           builder: (context, state) {
-                            if (state is LodingGettingCart) {
+                            if (state is AddingToCart) {
                               return PrimaryButtonWidget(
                                 width: 240.w,
                                 height: 54.h,

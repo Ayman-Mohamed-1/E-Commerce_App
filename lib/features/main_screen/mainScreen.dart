@@ -1,5 +1,8 @@
+// ignore_for_file: file_names
 
+import 'package:app_e_commers/features/cardScreen/cubit/cart_product_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/styling/app_colors.dart';
@@ -7,14 +10,14 @@ import '../account/accountScreem.dart';
 import '../cardScreen/cardScreen.dart';
 import '../homeScreem/homeScreen.dart';
 
-class mainScreen extends StatefulWidget {
-  const mainScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<mainScreen> createState() => _mainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _mainScreenState extends State<mainScreen> {
+class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
     const HomeScreen(),
@@ -37,6 +40,9 @@ class _mainScreenState extends State<mainScreen> {
           onTap: (value) {
             setState(() {
               currentIndex = value;
+              if (value == 1) {
+                context.read<CartProductCubit>().getCart();
+              }
             });
           },
           items: [

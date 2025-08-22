@@ -1,22 +1,17 @@
+// ignore_for_file: file_names
+
 import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
-import 'package:app_e_commers/core/widgets/gap.dart';
+
+import 'package:app_e_commers/features/cardScreen/model/cartModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class CardItemScreen extends StatelessWidget {
-  const CardItemScreen({
-    super.key,
-    required this.itemName,
-    required this.itemSize,
-    required this.itemprice,
-    this.itemimg,
-  });
+  const CardItemScreen({super.key, required this.product});
 
-  final String itemName;
-  final String itemSize;
-  final String itemprice;
-  final String? itemimg;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +30,25 @@ class CardItemScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(width: 83.w, height: 79.h, color: Colors.grey),
-              Gap(width: 16.w),
+              Gap(16.w),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    itemName,
+                    product.productId.toString(),
                     style: AppStyles.primaryHeadLineStyle.copyWith(
                       fontSize: 14.sp,
                     ),
                   ),
-                  Gap(height: 1.h),
+                  Gap(1.h),
                   Text(
-                    itemSize,
+                    "itemSize",
                     style: AppStyles.subtitleStyle.copyWith(fontSize: 12.sp),
                   ),
-                  // Gap(height: 15.h),
+                  // Gap( 15.h),
                   Spacer(),
                   Text(
-                    itemprice,
+                    "100",
                     style: AppStyles.primaryHeadLineStyle.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
@@ -66,7 +61,7 @@ class CardItemScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Icon(Icons.delete_rounded, color: AppColors.redColor),
-                  Gap(height: 29.h),
+                  Gap(29.h),
                   Row(
                     children: [
                       Container(
@@ -79,9 +74,9 @@ class CardItemScreen extends StatelessWidget {
                         ),
                         child: Icon(Icons.remove, size: 20),
                       ),
-                      Gap(width: 4.w),
+                      Gap(4.w),
                       Text("1"),
-                      Gap(width: 4.w),
+                      Gap(4.w),
                       Container(
                         alignment: Alignment.center,
                         width: 20.w,

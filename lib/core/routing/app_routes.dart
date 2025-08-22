@@ -4,4 +4,5 @@ class AppRoutes {
   static const String createAccount = "/CreateAccount";
   static const String detailsScreen = "/detailsScreen";
   static const String address = "/address";
+  static const String home = "/homeScreen";
 }

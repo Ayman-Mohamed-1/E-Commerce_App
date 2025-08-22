@@ -1,33 +1,29 @@
-part of 'cart_product_cubit.dart';
+import 'package:app_e_commers/features/cardScreen/model/cartModel.dart';
 
-sealed class CartProductState {}
+abstract class CartState {}
 
-final class CartProductInitial extends CartProductState {}
+class InitialCartState extends CartState {}
 
-final class LodingGettingCart extends CartProductState {}
+class LoadingCarts extends CartState {}
 
-final class SuccessGettingCart extends CartProductState {
+class SuccessGettingCarts extends CartState {
   final Cartmodel cart;
-
-  SuccessGettingCart(this.cart);
+  SuccessGettingCarts(this.cart);
 }
 
-final class ErrorGettingCart extends CartProductState {
+class ErrorGettingCarts extends CartState {
   final String message;
-
-  ErrorGettingCart(this.message);
+  ErrorGettingCarts(this.message);
 }
 
-final class LodingAddingCart extends CartProductState {}
+class AddingToCart extends CartState {}
 
-final class LodedAddingCart extends CartProductState {
+class SuccessAddingToCarts extends CartState {
   final Cartmodel cart;
-
-  LodedAddingCart(this.cart);
+  SuccessAddingToCarts(this.cart);
 }
 
-final class ErrorAddingCart extends CartProductState {
+class ErrorAddingToCart extends CartState {
   final String message;
-
-  ErrorAddingCart(this.message);
+  ErrorAddingToCart(this.message);
 }

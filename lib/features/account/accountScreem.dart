@@ -1,12 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/features/account/widget/accountItem.dart';
-import 'package:app_e_commers/routing/app_routes.dart';
+import 'package:app_e_commers/core/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/styling/app_styling.dart';
-import '../../core/widgets/gap.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -18,7 +20,7 @@ class AccountScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Gap(height: 59.h),
+          Gap(59.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -28,7 +30,7 @@ class AccountScreen extends StatelessWidget {
               ),
             ],
           ),
-          Gap(height: 24.h),
+          Gap(24.h),
           const Divider(color: Color.fromARGB(255, 136, 134, 134)),
           AccountItem(title: "My Orders", iconPath: "assets/icons/Vector1.png"),
           const AccountItem(
@@ -65,12 +67,12 @@ class AccountScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Gap(width: 8.w),
+                Gap(8.w),
                 Icon(Icons.logout, size: 25.w, color: AppColors.redColor),
               ],
             ),
           ),
-          Gap(height: 15.h),
+          Gap(15.h),
         ],
       ),
     );

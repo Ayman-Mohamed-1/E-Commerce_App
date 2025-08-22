@@ -1,7 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
 import 'package:app_e_commers/core/widgets/custom_text_filde.dart';
-import 'package:app_e_commers/core/widgets/gap.dart';
+
 import 'package:app_e_commers/features/homeScreem/cubit/categories/cubit/categories_cubit.dart';
 import 'package:app_e_commers/features/homeScreem/cubit/product/product_cubit.dart';
 import 'package:app_e_commers/features/homeScreem/widgets/category_item_widget.dart';
@@ -9,9 +11,10 @@ import 'package:app_e_commers/features/homeScreem/widgets/prodact_item_widget.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../routing/app_routes.dart';
+import '../../core/routing/app_routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,9 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Gap(height: 49.h),
+          Gap(49.h),
           Text("Discover", style: AppStyles.primaryHeadLineStyle),
-          Gap(height: 16.h),
+          Gap(16.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 hintText: "Search for products",
                 suffixIcon: Icon(Icons.search),
               ),
-              Gap(width: 8.w),
+              Gap(8.w),
               Container(
                 width: 52.w,
                 height: 50.h,
@@ -52,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          Gap(height: 16.h),
+          Gap(16.h),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: BlocBuilder<CategoriesCubit, CategoriesState>(
@@ -73,36 +76,44 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-          Gap(height: 24.h),
+          Gap(24.h),
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
               if (state is ProdectLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is ProdectLoaded) {
                 return Expanded(
-                  child: GridView.builder(
-                    itemCount: state.products.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8.sp,
-                      crossAxisSpacing: 16.sp,
-                      childAspectRatio: 0.7,
-                    ),
-                    itemBuilder: (context, index) {
-                      final product = state.products[index];
-                      return GestureDetector(
-                        onTap: () {
-                          GoRouter.of(
-                            context,
-                          ).pushNamed(AppRoutes.detailsScreen, extra: product);
-                        },
-                        child: ProdactItem(
-                          itemName: product.title,
-                          itemPrise: product.price.toString(),
-                          image: product.image,
-                        ),
-                      );
+                  child: RefreshIndicator(
+                    color: AppColors.primaryColor,
+                    backgroundColor: AppColors.whiteColor,
+                    onRefresh: () async {
+                      await context.read<ProductCubit>().getAllProducts();
                     },
+                    child: GridView.builder(
+                      itemCount: state.products.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.sp,
+                        crossAxisSpacing: 16.sp,
+                        childAspectRatio: 0.7,
+                      ),
+                      itemBuilder: (context, index) {
+                        final product = state.products[index];
+                        return GestureDetector(
+                          onTap: () {
+                            GoRouter.of(context).pushNamed(
+                              AppRoutes.detailsScreen,
+                              extra: product,
+                            );
+                          },
+                          child: ProdactItem(
+                            itemName: product.title,
+                            itemPrise: product.price.toString(),
+                            image: product.image,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               } else if (state is ProductError) {

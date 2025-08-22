@@ -1,4 +1,6 @@
 
+// ignore_for_file: file_names
+
 import 'package:app_e_commers/core/styling/app_styling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
