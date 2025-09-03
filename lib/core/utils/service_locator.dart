@@ -13,21 +13,21 @@ import 'package:get_it/get_it.dart';
 GetIt sl = GetIt.instance;
 
 void setupServiceLocator() {
-  // DioHelper dio = DioHelper();
+  DioHelper dio = DioHelper();
 
   sl.registerLazySingleton(() => StorageHeper());
 
   // sl.registerSingleton<DioHelper>(dio);
 
   // sl.registerLazySingleton(() => AuthRepo(sl()));
+  sl.registerLazySingleton<AuthRepo>(() => AuthRepo(dio));
+  sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl<AuthRepo>()));
 
   // sl.registerFactory(() => AuthCubit(sl()));
   sl.registerLazySingleton<DioHelper>(() => DioHelper());
   sl.registerLazySingleton<ProductRepo>(() => ProductRepo());
   sl.registerLazySingleton<ProductCubit>(() => ProductCubit());
   sl.registerLazySingleton<CartProductCubit>(() => CartProductCubit());
-  sl.registerLazySingleton<AuthCubit>(() => AuthCubit());
   sl.registerLazySingleton<CategoriesCubit>(() => CategoriesCubit());
-  sl.registerLazySingleton<AuthRepo>(() => AuthRepo());
   sl.registerLazySingleton<CartRepo>(() => CartRepo());
 }

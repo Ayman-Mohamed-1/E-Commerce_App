@@ -8,7 +8,7 @@ final class CategoriesInitial extends CategoriesState {}
 final class CategorieLoading extends CategoriesState {}
 
 final class CategorieLoaded extends CategoriesState {
-  final List<Category> categorie;
+  final List<String> categorie;
 
   CategorieLoaded(this.categorie);
 }

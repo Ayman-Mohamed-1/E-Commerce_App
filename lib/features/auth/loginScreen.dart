@@ -2,6 +2,8 @@
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
+import 'package:app_e_commers/core/utils/service_locator.dart';
+import 'package:app_e_commers/core/utils/storage_hlper.dart';
 import 'package:app_e_commers/core/widgets/primary_button_widget.dart';
 import 'package:app_e_commers/features/auth/cubit/auth_cubit.dart';
 
@@ -39,13 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     userName;
     password;
-    // sl<StorageHeper>().getData(
 
-    // ).then((value) {
-    //   if (value != null && value.isNotEmpty) {
-    //     GoRouter.of(context).pushReplacementNamed(AppRoutes.mainScreen);
-    //   }
-    // });
   }
 
   bool isPassword = true;

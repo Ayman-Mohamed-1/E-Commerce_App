@@ -23,7 +23,7 @@ class CartProductCubit extends Cubit<CartState> {
     );
   }
 
-  addingCart({required ProductModel product, required int quantity}) async {
+  addingCart({required ProductsModel product, required int quantity}) async {
     emit(AddingToCart());
     // if(state is clos)
     DateTime dateTime = DateTime.now();

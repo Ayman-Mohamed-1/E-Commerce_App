@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:developer';
+
 import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
 import 'package:app_e_commers/core/widgets/custom_text_filde.dart';
@@ -13,6 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../core/routing/app_routes.dart';
 
@@ -24,6 +28,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String isSelectedIndex = "All";
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -64,11 +69,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Container();
                 } else if (state is CategorieLoaded) {
                   return Row(
-                    children: List.generate(state.categorie.length, (index) {
-                      final categorie = state.categorie[index];
-                      return CategoryItemWidget(text: categorie.name);
-                    }),
+                    children: state.categorie.map((cat) {
+                      return CategoryItemWidget(
+                        isSelected: isSelectedIndex == cat ? true : false,
+                        onTap: () {
+                          setState(() {
+                            isSelectedIndex = cat;
+                            if (isSelectedIndex == "All") {
+                              context.read<ProductCubit>().getAllProducts();
+                            } else {
+                              context
+                                  .read<ProductCubit>()
+                                  .fetchProductCategories(cat);
+                            }
+                          });
+                        },
+                        text: cat,
+                      );
+                    }).toList(),
                   );
+
+                  // Row(
+                  //   children: List.generate(state.categorie.length, (index) {
+                  //     final categorie = state.categorie[index];
+                  //     final cat = state.categorie;
+
+                  //     return CategoryItemWidget(
+                  //       isSelected: isSelectedIndex == index ? true : false,
+                  //       onTap: () {
+                  //         setState(() {
+                  //           isSelectedIndex = index;
+                  //           // context.read<ProductCubit>().fetchProductCategories(
+                  //           //   state.categorie[index] as String,
+                  //           // );
+                  //         });
+                  //       },
+                  //       text: categorie.name,
+                  //     );
+                  //   }),
+                  // );
                 } else if (state is CategorieError) {
                   return Text(state.message);
                 }
@@ -80,17 +119,12 @@ class _HomeScreenState extends State<HomeScreen> {
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
               if (state is ProdectLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is ProdectLoaded) {
                 return Expanded(
-                  child: RefreshIndicator(
-                    color: AppColors.primaryColor,
-                    backgroundColor: AppColors.whiteColor,
-                    onRefresh: () async {
-                      await context.read<ProductCubit>().getAllProducts();
-                    },
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[400]!,
+                    highlightColor: Colors.grey[100]!,
                     child: GridView.builder(
-                      itemCount: state.products.length,
+                      itemCount: 6,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 8.sp,
@@ -98,21 +132,62 @@ class _HomeScreenState extends State<HomeScreen> {
                         childAspectRatio: 0.7,
                       ),
                       itemBuilder: (context, index) {
-                        final product = state.products[index];
-                        return GestureDetector(
-                          onTap: () {
-                            GoRouter.of(context).pushNamed(
-                              AppRoutes.detailsScreen,
-                              extra: product,
-                            );
-                          },
-                          child: ProdactItem(
-                            itemName: product.title,
-                            itemPrise: product.price.toString(),
-                            image: product.image,
-                          ),
+                        return Container(
+                          decoration: BoxDecoration(color: Colors.amber),
+                          width: 150.w,
+                          height: 120.h,
                         );
                       },
+                    ),
+                  ),
+                );
+              } else if (state is ProdectLoaded) {
+                return Expanded(
+                  child: RefreshIndicator(
+                    color: AppColors.primaryColor,
+                    backgroundColor: AppColors.whiteColor,
+                    onRefresh: () async {
+                      isSelectedIndex = "All";
+                      setState(() {});
+                      await context.read<ProductCubit>().getAllProducts();
+                    },
+                    child: AnimationLimiter(
+                      child: GridView.builder(
+                        itemCount: state.products.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8.sp,
+                          crossAxisSpacing: 16.sp,
+                          childAspectRatio: 0.7,
+                        ),
+                        itemBuilder: (context, index) {
+                          final product = state.products[index];
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            // columnCount: state.products.length,
+                            duration: const Duration(milliseconds: 600),
+
+                            child: SlideAnimation(
+                              verticalOffset: 200.0,
+                              child: FadeInAnimation(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    GoRouter.of(context).pushNamed(
+                                      AppRoutes.detailsScreen,
+                                      extra: product,
+                                    );
+                                  },
+                                  child: ProdactItem(
+                                    itemName: product.title.toString(),
+                                    itemPrise: product.price.toString(),
+                                    image: product.image,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 );

@@ -26,7 +26,19 @@ class ProdactItem extends StatelessWidget {
           child: SizedBox(
             width: 162.w,
             height: 174.h,
-            child: Image.network(image),
+            child: Hero(
+              tag: image,
+              child: Image.network(
+                image,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.black,
+                  );
+                },
+              ),
+            ),
           ),
         ),
         Gap(8.h),

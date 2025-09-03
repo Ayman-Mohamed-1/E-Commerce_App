@@ -17,7 +17,7 @@ import 'package:readmore/readmore.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.product});
-  final ProductModel product;
+  final ProductsModel product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +47,20 @@ class DetailsScreen extends StatelessWidget {
                   child: SizedBox(
                     width: 341.w,
                     height: 368.h,
-                    child: Image.network(product.image, fit: BoxFit.contain),
+                    child: Hero(
+                      tag: product.image,
+                      child: Image.network(
+                        product.image,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 341.w,
+                            height: 368.h,
+                            color: AppColors.blackColor,
+                          );
+                        },
+                      ),
+                    ),
                     // color: Colors.grey,
                   ),
                 ),
@@ -57,7 +70,7 @@ class DetailsScreen extends StatelessWidget {
                       children: [
                         Gap(12.h),
                         Text(
-                          product.title,
+                          product.title.toString(),
                           style: AppStyles.primaryHeadLineStyle.copyWith(
                             fontSize: 24.sp,
                           ),
@@ -71,7 +84,7 @@ class DetailsScreen extends StatelessWidget {
                               size: 30,
                             ),
                             Text(
-                              product.rating.rate.toString(),
+                              product.rating!.rate.toString(),
                               style: AppStyles.subtitleStyle.copyWith(
                                 color: AppColors.blackColor,
                                 fontWeight: FontWeight.w500,
@@ -79,7 +92,7 @@ class DetailsScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              product.rating.count.toString(),
+                              product.rating!.count.toString(),
                               style: AppStyles.subtitleStyle.copyWith(
                                 fontWeight: FontWeight.w500,
                               ),

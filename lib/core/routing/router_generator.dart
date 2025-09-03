@@ -5,9 +5,11 @@ import 'package:app_e_commers/features/homeScreem/cubit/product/product_cubit.da
 import 'package:app_e_commers/features/homeScreem/homeScreen.dart';
 import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
 import 'package:app_e_commers/features/main_screen/mainScreen.dart';
+import 'package:app_e_commers/features/splashScreen/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_transitions/go_transitions.dart';
 
 import '../utils/service_locator.dart';
 
@@ -21,7 +23,7 @@ class RouterGenerator {
   static GoRouter goRouter = GoRouter(
     errorBuilder: (context, state) =>
         Scaffold(body: Center(child: Text("route not found"))),
-    initialLocation: AppRoutes.loginScreen,
+    initialLocation: AppRoutes.splashScreen,
     routes: [
       GoRoute(
         path: AppRoutes.createAccount,
@@ -53,17 +55,24 @@ class RouterGenerator {
         builder: (context, state) => MainScreen(),
       ),
       GoRoute(
+        pageBuilder: GoTransitions.fadeUpwards,
         path: AppRoutes.detailsScreen,
         name: AppRoutes.detailsScreen,
         builder: (context, state) {
-          final product = state.extra as ProductModel;
+          final product = state.extra as ProductsModel;
           return DetailsScreen(product: product);
         },
       ),
       GoRoute(
+        // pageBuilder: GoTransitions.fadeUpwards,
         path: AppRoutes.address,
         name: AppRoutes.address,
         builder: (context, state) => AddressScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.splashScreen,
+        name: AppRoutes.splashScreen,
+        builder: (context, state) => SplashScreen(),
       ),
     ],
   );

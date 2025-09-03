@@ -26,7 +26,7 @@ class CartRepo {
 
   Future<Either<String, Cartmodel>> addToCart({
     required String date,
-    required ProductModel product,
+    required ProductsModel product,
     required int quantity,
   }) async {
     try {

@@ -1,3 +1,4 @@
+import 'package:app_e_commers/core/styling/theme_data.dart';
 import 'package:app_e_commers/core/utils/service_locator.dart';
 import 'package:app_e_commers/features/auth/cubit/auth_cubit.dart';
 import 'package:app_e_commers/features/cardScreen/cubit/cart_product_cubit.dart';
@@ -7,7 +8,6 @@ import 'package:app_e_commers/core/routing/router_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,10 @@ class MyApp extends StatelessWidget {
             ),
             BlocProvider(create: (_) => sl<CartProductCubit>()),
           ],
-          child: MaterialApp.router(routerConfig: RouterGenerator.goRouter),
+          child: MaterialApp.router(
+            theme: AppThemes.lightTheme,
+            routerConfig: RouterGenerator.goRouter,
+          ),
         );
       },
     );

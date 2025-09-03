@@ -15,12 +15,15 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   final repo = sl<ProductRepo>();
   getAllCategorie() async {
     emit(CategorieLoading());
-    try {
-      final List<Category> categorie = await repo.getCategories();
-      log(categorie.toString());
-      emit(CategorieLoaded(categorie));
-    } catch (e) {
-      emit(CategorieError(e.toString()));
-    }
+    final categorie = await repo.getCategories();
+    categorie.fold(
+      (error) {
+        emit(CategorieError(error));
+      },
+      (categorie) {
+        log(categorie.toString());
+        emit(CategorieLoaded(categorie));
+      },
+    );
   }
 }

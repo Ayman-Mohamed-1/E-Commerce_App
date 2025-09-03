@@ -8,7 +8,7 @@ final class ProductInitial extends ProductState {}
 final class ProdectLoading extends ProductState {}
 
 final class ProdectLoaded extends ProductState {
-  final List<ProductModel> products;
+  final List<ProductsModel> products;
 
   ProdectLoaded(this.products);
 }

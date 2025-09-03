@@ -11,9 +11,9 @@ class StorageHeper {
     await storage.write(key: key, value: token);
   }
 
-  // Future<String?> getData() async {
-  //   return await storage.read(key: "token");
-  // }
+  Future<String?> getData() async {
+    return await storage.read(key: "token");
+  }
 
   Future removeToken() async {
     await storage.delete(key: "token");

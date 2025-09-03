@@ -49,6 +49,10 @@ dependencies:
   gap: ^3.0.1
   bloc: ^9.0.0
   meta: ^1.16.0
+  cached_network_image: ^3.4.1
+  flutter_staggered_animations: ^1.1.1
+  go_transitions: ^0.8.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +79,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/
+    - assets/logo/
     - assets/lottie/
   #   - images/a_dot_ham.jpeg
 

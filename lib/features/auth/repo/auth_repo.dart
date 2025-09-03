@@ -8,9 +8,11 @@ import '../../../core/utils/storage_hlper.dart';
 import '../modles/login_response_model.dart';
 
 class AuthRepo {
-  // final DioHelper _dioHelper;
 
-  // AuthRepo(this._dioHelper);
+
+  final DioHelper _dioHelper;
+
+  AuthRepo(this._dioHelper);
 
   Future<Either<String, LoginResponseModel>> login(
     String userName,
