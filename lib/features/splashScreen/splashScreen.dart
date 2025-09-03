@@ -1,14 +1,15 @@
+// ignore_for_file: file_names, use_build_context_synchronously
+
 import 'package:app_e_commers/core/routing/app_routes.dart';
 import 'package:app_e_commers/core/styling/images.dart';
 import 'package:app_e_commers/core/utils/service_locator.dart';
 import 'package:app_e_commers/core/utils/storage_hlper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

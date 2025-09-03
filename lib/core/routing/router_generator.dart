@@ -55,7 +55,7 @@ class RouterGenerator {
         builder: (context, state) => MainScreen(),
       ),
       GoRoute(
-        pageBuilder: GoTransitions.fadeUpwards,
+        pageBuilder: GoTransitions.fadeUpwards.call,
         path: AppRoutes.detailsScreen,
         name: AppRoutes.detailsScreen,
         builder: (context, state) {

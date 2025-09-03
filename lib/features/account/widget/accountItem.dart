@@ -24,6 +24,7 @@ class AccountItem extends StatelessWidget {
           Gap(20.h),
           Row(
             children: [
+              // ignore: unnecessary_null_comparison
               iconPath == null
                   ? const SizedBox.shrink()
                   : Image.asset(iconPath, width: 20.w, height: 20.h),

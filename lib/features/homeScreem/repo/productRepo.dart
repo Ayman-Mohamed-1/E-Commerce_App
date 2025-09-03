@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:developer';
 
 import 'package:app_e_commers/core/networking/api_endpoints.dart';

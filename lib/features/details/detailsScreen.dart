@@ -84,7 +84,7 @@ class DetailsScreen extends StatelessWidget {
                               size: 30,
                             ),
                             Text(
-                              product.rating!.rate.toString(),
+                              product.rating.rate.toString(),
                               style: AppStyles.subtitleStyle.copyWith(
                                 color: AppColors.blackColor,
                                 fontWeight: FontWeight.w500,
@@ -92,7 +92,7 @@ class DetailsScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              product.rating!.count.toString(),
+                              product.rating.count.toString(),
                               style: AppStyles.subtitleStyle.copyWith(
                                 fontWeight: FontWeight.w500,
                               ),

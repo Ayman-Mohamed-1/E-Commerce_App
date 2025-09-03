@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:app_e_commers/core/utils/service_locator.dart';
-import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
-
 import 'package:app_e_commers/features/homeScreem/repo/productRepo.dart';
 import 'package:bloc/bloc.dart';
 

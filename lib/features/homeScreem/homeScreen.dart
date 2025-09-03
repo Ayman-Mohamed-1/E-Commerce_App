@@ -1,7 +1,4 @@
 // ignore_for_file: file_names
-
-import 'dart:developer';
-
 import 'package:app_e_commers/core/styling/app_colors.dart';
 import 'package:app_e_commers/core/styling/app_styling.dart';
 import 'package:app_e_commers/core/widgets/custom_text_filde.dart';
