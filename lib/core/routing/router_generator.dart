@@ -1,8 +1,6 @@
 import 'package:app_e_commers/features/auth/CreateAccount.dart';
+import 'package:app_e_commers/features/cardScreen/cubit/cart_product_cubit.dart';
 import 'package:app_e_commers/features/details/detailsScreen.dart';
-import 'package:app_e_commers/features/homeScreem/cubit/categories/cubit/categories_cubit.dart';
-import 'package:app_e_commers/features/homeScreem/cubit/product/product_cubit.dart';
-import 'package:app_e_commers/features/homeScreem/homeScreen.dart';
 import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
 import 'package:app_e_commers/features/main_screen/mainScreen.dart';
 import 'package:app_e_commers/features/splashScreen/splashScreen.dart';
@@ -30,17 +28,7 @@ class RouterGenerator {
         name: AppRoutes.createAccount,
         builder: (context, state) => CreateAccount(),
       ),
-      GoRoute(
-        path: AppRoutes.home,
-        name: AppRoutes.home,
-        builder: (context, state) => MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => ProductCubit()),
-            BlocProvider(create: (context) => CategoriesCubit()),
-          ],
-          child: HomeScreen(),
-        ),
-      ),
+
       GoRoute(
         path: AppRoutes.loginScreen,
         name: AppRoutes.loginScreen,
@@ -52,7 +40,10 @@ class RouterGenerator {
       GoRoute(
         path: AppRoutes.mainScreen,
         name: AppRoutes.mainScreen,
-        builder: (context, state) => MainScreen(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => sl<CartProductCubit>(),
+          child: MainScreen(),
+        ),
       ),
       GoRoute(
         pageBuilder: GoTransitions.fadeUpwards.call,
@@ -60,7 +51,10 @@ class RouterGenerator {
         name: AppRoutes.detailsScreen,
         builder: (context, state) {
           final product = state.extra as ProductsModel;
-          return DetailsScreen(product: product);
+          return BlocProvider(
+            create: (context) => sl<CartProductCubit>(),
+            child: DetailsScreen(product: product),
+          );
         },
       ),
       GoRoute(

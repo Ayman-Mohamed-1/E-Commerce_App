@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   waitAnimationAndNavigate() async {
     await Future.delayed(Duration(seconds: 3));
-    sl<StorageHeper>().getData().then((value) {
+    sl<StorageHelper>().getData().then((value) {
       if (value != null && value.isNotEmpty) {
         GoRouter.of(context).pushReplacementNamed(AppRoutes.mainScreen);
       } else {

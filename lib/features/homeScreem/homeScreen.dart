@@ -85,26 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }).toList(),
                   );
-
-                  // Row(
-                  //   children: List.generate(state.categorie.length, (index) {
-                  //     final categorie = state.categorie[index];
-                  //     final cat = state.categorie;
-
-                  //     return CategoryItemWidget(
-                  //       isSelected: isSelectedIndex == index ? true : false,
-                  //       onTap: () {
-                  //         setState(() {
-                  //           isSelectedIndex = index;
-                  //           // context.read<ProductCubit>().fetchProductCategories(
-                  //           //   state.categorie[index] as String,
-                  //           // );
-                  //         });
-                  //       },
-                  //       text: categorie.name,
-                  //     );
-                  //   }),
-                  // );
                 } else if (state is CategorieError) {
                   return Text(state.message);
                 }

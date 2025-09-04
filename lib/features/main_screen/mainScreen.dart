@@ -1,6 +1,10 @@
 // ignore_for_file: file_names
 
+import 'package:app_e_commers/core/utils/service_locator.dart';
+import 'package:app_e_commers/features/auth/cubit/auth_cubit.dart';
 import 'package:app_e_commers/features/cardScreen/cubit/cart_product_cubit.dart';
+import 'package:app_e_commers/features/homeScreem/cubit/categories/cubit/categories_cubit.dart';
+import 'package:app_e_commers/features/homeScreem/cubit/product/product_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,9 +24,17 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
-    const HomeScreen(),
-    const CardScreen(),
-    const AccountScreen(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<ProductCubit>()..getAllProducts()),
+        BlocProvider(
+          create: (context) => sl<CategoriesCubit>()..getAllCategorie(),
+        ),
+      ],
+      child: HomeScreen(),
+    ),
+    CardScreen(),
+    BlocProvider(create: (context) => sl<AuthCubit>(), child: AccountScreen()),
     // const AddressScreen()
   ];
   @override

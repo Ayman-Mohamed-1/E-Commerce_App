@@ -10,8 +10,6 @@ import '../../../core/utils/storage_hlper.dart';
 import '../modles/login_response_model.dart';
 
 class AuthRepo {
-
-
   final DioHelper _dioHelper;
 
   AuthRepo(this._dioHelper);
@@ -21,17 +19,20 @@ class AuthRepo {
     String password,
   ) async {
     try {
-      final response = await sl<DioHelper>().postRequest(
+      final response = await _dioHelper.postRequest(
         endPoint: ApiEndpoints.login,
         data: {"username": userName, "password": password},
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         LoginResponseModel loginResponseModel = LoginResponseModel.fromJson(
           response.data,
         );
 
         if (loginResponseModel.token != null) {
-          await sl<StorageHeper>().saveData("token", loginResponseModel.token!);
+          await sl<StorageHelper>().saveData(
+            "token",
+            loginResponseModel.token!,
+          );
           return Right(loginResponseModel);
         } else {
           return const Left("Login failed, please try again");
@@ -39,8 +40,6 @@ class AuthRepo {
       } else {
         return Left(response.toString());
       }
-      //
-      //  error handling
     } catch (e) {
       if (e is DioException) {
         return Left(e.response.toString());

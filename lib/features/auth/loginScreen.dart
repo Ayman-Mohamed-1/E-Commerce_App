@@ -39,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     userName;
     password;
-
   }
 
   bool isPassword = true;
@@ -93,11 +92,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Gap(24.h),
                     Text(
+                      // ! mor_2314
                       "User Name",
                       style: AppStyles.subtitleStyle.copyWith(
                         color: AppColors.blackColor,
                         fontWeight: FontWeight.w500,
                       ),
+                    ),
+                    Text(
+                      "mor_2314",
+                      style: AppStyles.textFelde.copyWith(fontSize: 12),
                     ),
                     Gap(4.h),
                     CustomTextFilde(
@@ -112,11 +116,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Gap(16.h),
                     Text(
+                      // ! 83r5^_
                       "Password",
                       style: AppStyles.subtitleStyle.copyWith(
                         color: AppColors.blackColor,
                         fontWeight: FontWeight.w500,
                       ),
+                    ),
+                    Text(
+                      "83r5^_",
+                      style: AppStyles.textFelde.copyWith(fontSize: 12),
                     ),
                     Gap(4.h),
                     CustomTextFilde(

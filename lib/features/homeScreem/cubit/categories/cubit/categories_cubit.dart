@@ -9,11 +9,12 @@ import 'package:meta/meta.dart';
 part 'categories_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
-  CategoriesCubit() : super(CategoriesInitial());
+  CategoriesCubit(this._homeRepo) : super(CategoriesInitial());
+  final ProductRepo _homeRepo;
   final repo = sl<ProductRepo>();
   getAllCategorie() async {
     emit(CategorieLoading());
-    final categorie = await repo.getCategories();
+    final categorie = await _homeRepo.getCategories();
     categorie.fold(
       (error) {
         emit(CategorieError(error));

@@ -2,15 +2,16 @@ import 'dart:developer';
 
 import 'package:app_e_commers/core/networking/api_endpoints.dart';
 import 'package:app_e_commers/core/networking/dio_helper.dart';
-import 'package:app_e_commers/core/utils/service_locator.dart';
 import 'package:app_e_commers/features/cardScreen/model/cartModel.dart';
 import 'package:app_e_commers/features/homeScreem/model/productModel.dart';
 import 'package:dartz/dartz.dart';
 
 class CartRepo {
+  final DioHelper _dioHelper;
+  CartRepo(this._dioHelper);
   Future<Either<String, Cartmodel>> getAllCart() async {
     try {
-      final respons = await sl<DioHelper>().getRequest(
+      final respons = await _dioHelper.getRequest(
         endPoint: "${ApiEndpoints.carts}/user/2",
       );
       if (respons.statusCode == 200) {
@@ -30,7 +31,7 @@ class CartRepo {
     required int quantity,
   }) async {
     try {
-      final respons = await sl<DioHelper>().putRequest(
+      final respons = await _dioHelper.putRequest(
         endPoint: "${ApiEndpoints.carts}/user/3",
         data: {
           "userId": 2,

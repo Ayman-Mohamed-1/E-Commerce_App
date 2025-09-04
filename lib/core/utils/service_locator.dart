@@ -15,19 +15,20 @@ GetIt sl = GetIt.instance;
 void setupServiceLocator() {
   DioHelper dio = DioHelper();
 
-  sl.registerLazySingleton(() => StorageHeper());
+  // Dio Helper
+  sl.registerSingleton<DioHelper>(dio);
 
-  // sl.registerSingleton<DioHelper>(dio);
+  //Storage Helper
+  sl.registerLazySingleton(() => StorageHelper());
 
-  // sl.registerLazySingleton(() => AuthRepo(sl()));
-  sl.registerLazySingleton<AuthRepo>(() => AuthRepo(dio));
-  sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl<AuthRepo>()));
+  // Repos
+  sl.registerLazySingleton(() => AuthRepo(sl<DioHelper>()));
+  sl.registerLazySingleton(() => ProductRepo(sl<DioHelper>()));
+  sl.registerLazySingleton(() => CartRepo(sl<DioHelper>()));
 
-  // sl.registerFactory(() => AuthCubit(sl()));
-  sl.registerLazySingleton<DioHelper>(() => DioHelper());
-  sl.registerLazySingleton<ProductRepo>(() => ProductRepo());
-  sl.registerLazySingleton<ProductCubit>(() => ProductCubit());
-  sl.registerLazySingleton<CartProductCubit>(() => CartProductCubit());
-  sl.registerLazySingleton<CategoriesCubit>(() => CategoriesCubit());
-  sl.registerLazySingleton<CartRepo>(() => CartRepo());
+  // Cubit
+  sl.registerFactory(() => AuthCubit(sl<AuthRepo>()));
+  sl.registerFactory(() => ProductCubit(sl<ProductRepo>()));
+  sl.registerFactory(() => CategoriesCubit(sl<ProductRepo>()));
+  sl.registerFactory(() => CartProductCubit(sl<CartRepo>()));
 }

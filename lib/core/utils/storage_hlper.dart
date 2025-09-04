@@ -1,11 +1,9 @@
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class StorageHeper {
+class StorageHelper {
   final storage = const FlutterSecureStorage(
-      aOptions: AndroidOptions(
-    encryptedSharedPreferences: true,
-  ));
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
 
   Future saveData(String key, String token) async {
     await storage.write(key: key, value: token);
